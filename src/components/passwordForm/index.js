@@ -10,7 +10,8 @@ class PasswordForm extends React.Component{
         this.state= {
             nameTrue : false,
             passwordTrue: false,
-            errorMsg: "please SignUp"
+            errorMsg: "please SignUp",
+            confirmation: false
         }
 
         this.submitHandler = this.submitHandler.bind(this);
@@ -29,58 +30,76 @@ class PasswordForm extends React.Component{
 
     checkPassword(){
 
-        let name = document.querySelector("input[name='name']").value;
+        let fullName = document.querySelector("input[name='name']").value;
         let password = document.querySelector("input[name='password']").value;
-
+        let userName = fullName.split("@")[0];
+        let status = false;
 
         let passWordConditions = [
-            "0123456789",
-            "!§$%&?",
+            ["0123456789","numbers"],
+            ["!§$%&?","specialCase"],
+            ["ABCDEFGHIJKLMNOPQRSTUVWXYZ","bigCase"]
         ]
 
-
+        this.setState({
+            confirmation: true
+        }) 
 
 
         
-        if(name.includes("@")){
+        if(fullName.includes("@")){
         
+            if(password === userName){
+                this.setState({
+                    errorMsg: "Password includes Username",
+                    confirmation: false
+                })
+            }
+            else if(password.length < 8){
+                this.setState({
+                    errorMsg: "Password shound at least have 8 characters",
+                    confirmation: false
+                })   
+            }
+
             passWordConditions.map(condition => {
 
-                for(let index = 0; index < condition.length; index++){
-
-                if(!password.includes(condition.charAt(index))){
-                    this.setState({
-                        errorMsg: "Ok Boomer"
-                    })
+                status = false;
+                
+                for(let index = 0; index < condition[0].length; index++){
+                    if(password.includes(condition[0].charAt(index))){                  
+                        status = true;
+                    }
                 }
-                } 
-
+                 
+                if (!status){
+                    this.setState({
+                        errorMsg: condition[1] + " is missing",
+                        confirmation: false
+                    }) 
+                }
             }) 
-        
-
         }
+
         else{
             this.setState({
-                errorMsg: "no @"
+                errorMsg: "no @",
+                confirmation: false
             })
         }
 
-
-        if(!name){
+        if(!fullName){
             this.setState({
-                errorMsg: "no Username"
+                errorMsg: "no Username",
+                confirmation: false
             })
-        }
-
-
-
-
-
-        
+        }        
     }
 
     render(){
         return(
+
+            <article>
             <form className="signForm" onSubmit={this.submitHandler}>
            
             <fieldset>
@@ -94,6 +113,18 @@ class PasswordForm extends React.Component{
             </fieldset>
            
             </form>
+
+            {this.state.confirmation?
+            <section>
+                Congratulation, you are part of our pyramide scheme.
+            </section>:
+            ""
+
+            }
+
+
+         
+            </article>
         )
     }
 
