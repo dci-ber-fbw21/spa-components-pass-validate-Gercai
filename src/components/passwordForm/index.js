@@ -28,6 +28,16 @@ class PasswordForm extends React.Component{
         this.checkPassword();
     }
 
+    togglePassword(){
+
+        let selector = document.querySelector("input[name=password]");
+
+        selector.type === "password"?
+        selector.type = "text":
+        selector.type = "password";
+    
+    }
+
     checkPassword(){
 
         let fullName = document.querySelector("input[name='name']").value;
@@ -106,8 +116,10 @@ class PasswordForm extends React.Component{
                 <label>userName</label>
                 <input name="name"></input>
                 <label>password</label>
-                <input name="password"></input>
-                
+                <div>
+                <input className="password" name="password" type="password"/><span
+                toggle="visibility" onClick={this.togglePassword}>a</span>
+                </div>
                 <label className="errorMsg">{this.state.errorMsg}</label>
                 <button name="sign">Sign Up</button>
             </fieldset>
@@ -119,7 +131,6 @@ class PasswordForm extends React.Component{
                 Congratulation, you are part of our pyramide scheme.
             </section>:
             ""
-
             }
 
 
