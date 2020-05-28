@@ -1,0 +1,31 @@
+
+.signForm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+fieldset{
+    display: flex;
+    margin: 50px;
+    padding: 50px;
+
+    input{
+        margin-bottom: 10px;
+    }
+
+    button{
+        width: 100%;
+        background-color: blue;
+        color: white;
+        
+    }
+}
+
+
+
+.signUp{
+    margin: 50px;
+    min-width: 50vw;
+}
